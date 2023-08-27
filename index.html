@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fer-13-fd-12</title>
+    <link rel="stylesheet" href="bootstrap-5.3.1-dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="row" style="display: flex; justify-content: center; align-items: center; padding-top: 4%;">
+            <div class="col" style="display: flex; justify-content: space-between;">
+                <button id="cat-button" class="btn btn-info" style="height: 80px; margin: 5px">Show Me Cat!</button>
+                <button id="dog-button" class="btn btn-info" style="height: 80px; margin: 5px">Show Me Dog!</button>
+                <button id="chick-button" class="btn btn-info" style="height: 80px; margin: 5px">Show Me Chick!</button>
+                <button id="crow-button" class="btn btn-info" style="height: 80px; margin: 5px">Show Me Crow!</button>
+            </div>
+        </div>
+    
+        <div class="row" style="display: flex; justify-content: center; align-items: center; padding: 4%;">
+            <div class="col">
+                <div class="input-group">
+                    <input id="inputText" type="text" placeholder="Enter text" class="form-control">
+                    <button id="search-button" class="btn btn-info" style="flex-shrink: 0;">Search</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"  style="display: flex; justify-content: center; align-items: center; padding: 4%;">
+            <div class="col">
+                <p id="tanpaHewan" style="visibility: hidden;">Text</p>
+                <div id="spin" style="visibility: hidden;"  class="spinner-border text-primary"></div>
+                <div id="cardHewan" class="card p-1" style="height: 480px; visibility: hidden;">
+                    <div style="padding-left: 0%;">
+                        <div class="flex-row justify-content-center" style="height: 200px;">
+                            <img src="assets/undraw_cat.svg" id="imageHewan" class="card-img-top" alt="cat">	
+                            <div class="card-body">
+                                <h5 class="card-title" id="namaHewan">Cat</h5>
+                                <p class="card-text" id="descHewan">
+                                    The Cat is a domestic species of small carnivorous mammal.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script> 
+        const catButton = document.getElementById("cat-button");
+        const dogButton = document.getElementById("dog-button");
+        const chickButton = document.getElementById("chick-button");
+        const crowButton = document.getElementById("crow-button");
+        const searchButton = document.getElementById("search-button");
+        var gambarHewan = document.getElementById("imageHewan");
+        var nHewan = document.getElementById("namaHewan");
+        var dHewan = document.getElementById("descHewan");
+        var cHewan = document.getElementById("cardHewan");
+        var tHewan = document.getElementById("tanpaHewan");
+        var spinner = document.getElementById("spin");
+
+        var animals = [
+            {
+                key: 'Cat',
+                imageSource: './assets/undraw_cat.svg',
+                description: 'The cat is a domestic species of small carnivorous mammal. It is the only domesticated species in the family Felidae and is commonly referred to as the domestic cat or house cat to distinguish it from the wild members of the family.'
+            },
+            {
+                key: 'Dog',
+                imageSource: './assets/undraw_dog.svg',
+                description: 'The dog is a domesticated descendant of the wolf. Also called the domestic dog, it is derived from extinct Pleistocene wolves, and the modern wolf is the dog\'s nearest living relative. Dogs were the first species to be domesticated by hunter-gatherers over 15,000 years ago before the development of agriculture.'
+            },
+            {
+                key: 'Chick',
+                imageSource: './assets/undraw_chick.svg',
+                description: 'Chick (young bird), a bird that has not yet reached adulthood.'
+            }
+        ];
+            //console.log(animals)
+
+        catButton.addEventListener("click", function() {
+            Hewan(0)
+        });
+        dogButton.addEventListener("click", function() {
+            Hewan(1)
+        });
+        chickButton.addEventListener("click", function() {
+            Hewan(2)
+        });
+        crowButton.addEventListener("click", function() {
+            noHewan();                 
+        });
+
+        function Hewan(nama){
+                spinner.style.visibility = 'visible';
+                tHewan.style.visibility = 'hidden';
+                cHewan.style.visibility = 'hidden';
+            setTimeout( function(){
+                spinner.style.visibility = 'hidden';
+                tHewan.style.visibility = 'hidden';
+                cHewan.style.visibility = 'visible';
+                gambarHewan.src = animals[nama].imageSource;
+                nHewan.textContent = animals[nama].key;
+                dHewan.textContent = animals[nama].description;
+            }, 3500)
+        }
+
+        function noHewan(){
+                spinner.style.visibility = 'visible';
+                tHewan.style.visibility = 'hidden';
+                cHewan.style.visibility = 'hidden';
+            setTimeout( function(){
+                spinner.style.visibility = 'hidden';
+                cHewan.style.visibility = 'hidden';
+                tHewan.style.visibility = 'visible';
+                tHewan.textContent = "No Animal Has Been Found"
+            },3000)
+        }
+
+        searchButton.addEventListener("click", function () {
+            var kata = document.getElementById("inputText").value;
+            //alert(kata.toLowerCase());
+            setMessage(kata.toLowerCase())
+                .catch(function (errorMessage) {
+                    noHewan(); 
+                });
+        });
+
+        function setMessage(approved) {
+            return new Promise((resolve, reject) => {
+                    if (approved== "cat") {
+                        resolve(Hewan(0));
+                    } else if (approved== "dog"){
+                        resolve(Hewan(1));
+                    } else if (approved== "chick"){
+                        resolve(Hewan(2));
+                    } else {
+                        reject();
+                    }
+            });
+        }
+    </script>
+</body>
+</html>
